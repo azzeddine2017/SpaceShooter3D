@@ -1,0 +1,26 @@
+MODEL INSPECTION REPORT:
+----------------------------------------
+Checking: data/Fighter+38_obj/Fighter 38.obj
+Loaded successfully in 0.01 seconds
+Mesh count: 1
+Material count: 1
+----------------------------------------
+Checking: data/Fighter+232_obj/Fighter 232.obj
+Loaded successfully in 0.04 seconds
+Mesh count: 1
+Material count: 1
+----------------------------------------
+Checking: data/enemy_fighter.obj
+Loaded successfully in 0.15 seconds
+Mesh count: 1
+Material count: 1
+----------------------------------------
+Checking: data/enemy_scout.obj
+Loaded successfully in 0.28 seconds
+Mesh count: 1
+Material count: 1
+----------------------------------------
+Checking: data/imperial_shuttle_ver1.obj
+ERROR: File does not exist!
+========================================
+ALL MODELS TESTED SUCCESSFULLY!

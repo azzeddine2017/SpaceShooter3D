@@ -1,0 +1,14 @@
+# Blender 4.0.2 MTL File: 'Fighter 232.blend'
+# www.blender.org
+
+newmtl Fighter232
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd C:/Users/Nicu/My Drive/Blender/Blender Projects/To Sell/4/Fighter232_BaseColor.jpg
+map_Ns C:/Users/Nicu/My Drive/Blender/Blender Projects/To Sell/4/Fighter232_Roughness.jpg
+map_refl C:/Users/Nicu/My Drive/Blender/Blender Projects/To Sell/4/Fighter232_Metalness.jpg
+map_Bump -bm 1.000000 C:/Users/Nicu/My Drive/Blender/Blender Projects/To Sell/4/Fighter232_Normal.jpg
