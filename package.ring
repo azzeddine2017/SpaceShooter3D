@@ -5,22 +5,22 @@ aPackageInfo = [
     :developer = "Azzeddine2017",
     :email = "",
     :license = "MIT License",
-    :version = "1.0.0",
+    :version = "1.0.1",
     :ringversion = "1.21",
     :versions = [
         [
-            :version = "1.0.0",
+            :version = "1.0.1",
             :branch = "master"
         ],
         [
-            :version = "1.0.0",
+            :version = "1.0.1",
             :branch = "main"
         ]
     ],
     :libs = [
         [
             :name = "raylib",
-            :version = "1.0",
+            :version = "1.0.49",
             :providerusername = ""
         ]
     ],
