@@ -38,6 +38,65 @@ class CockpitHUD
         ok
     end
 
+    func drawSpaceBackdrop screenWidth, screenHeight, bgTex
+        if bgTex != NULL and bgTex.id > 0
+            srcRec  = Rectangle(0, 0, bgTex.width, bgTex.height)
+            destRec = Rectangle(0, 0, screenWidth, screenHeight)
+            DrawTexturePro(bgTex, srcRec, destRec, Vector2(0, 0), 0.0, WHITE)
+            DrawRectangleGradientV(0, 0, screenWidth, screenHeight, RAYLibColor(4, 8, 16, 60), RAYLibColor(2, 4, 10, 150))
+        else
+            DrawRectangleGradientV(0, 0, screenWidth, screenHeight, RAYLibColor(8, 16, 32, 255), RAYLibColor(3, 5, 12, 255))
+        ok
+    end
+
+    func drawTextWithin text, x, y, maxW, fontSize, color
+        if MeasureText(text, fontSize) <= maxW
+            DrawText(text, x, y, fontSize, color)
+            return y + fontSize + 4
+        ok
+        words = splitWords(text)
+        lineStr = ""
+        curY = y
+        for w = 1 to len(words)
+            word = words[w]
+            testStr = lineStr
+            if len(testStr) > 0 testStr += " " ok
+            testStr += word
+            if MeasureText(testStr, fontSize) > maxW and len(lineStr) > 0
+                DrawText(lineStr, x, curY, fontSize, color)
+                curY += fontSize + 3
+                lineStr = word
+            else
+                lineStr = testStr
+            ok
+        next
+        if len(lineStr) > 0
+            DrawText(lineStr, x, curY, fontSize, color)
+            curY += fontSize + 4
+        ok
+        return curY
+    end
+
+    func splitWords str
+        words = []
+        w = ""
+        for i = 1 to len(str)
+            c = str[i]
+            if c = " " or c = char(9) or c = char(10) or c = char(13)
+                if len(w) > 0
+                    words + w
+                    w = ""
+                ok
+            else
+                w += c
+            ok
+        next
+        if len(w) > 0
+            words + w
+        ok
+        return words
+    end
+
     func resetCamera
         camera.position.x = 0.0
         camera.position.y = 8.5
@@ -271,18 +330,18 @@ class CockpitHUD
     # 1. Cinematic Story Prologue Banner (STATE_STORY)
     # ---------------------------------------------------------------
     func drawStoryBanner screenWidth, screenHeight
-        # Backdrop dimming
-        DrawRectangle(0, 0, screenWidth, screenHeight, RAYLibColor(5, 8, 16, 210))
+        # Backdrop dimming with subtle cosmic gradient
+        DrawRectangleGradientV(0, 0, screenWidth, screenHeight, RAYLibColor(5, 10, 22, 180), RAYLibColor(2, 4, 12, 230))
 
-        # Main Transmission Glass Panel
+        # Main Transmission Glass Panel with Vertical Gradient
         bW = 760
         bH = 460
         bX = screenWidth / 2 - bW / 2
         bY = screenHeight / 2 - bH / 2
 
         recBanner = Rectangle(bX, bY, bW, bH)
-        DrawRectangleRounded(recBanner, 0.08, 6, RAYLibColor(12, 18, 32, 245))
-        DrawRectangleRoundedLines(recBanner, 0.08, 6, 2.5, SKYBLUE)
+        DrawRectangleGradientV(bX, bY, bW, bH, RAYLibColor(16, 26, 48, 245), RAYLibColor(6, 10, 20, 252))
+        DrawRectangleRoundedLines(recBanner, 0.06, 6, 2.2, SKYBLUE)
 
         # Tech Corner Brackets
         cr = 20
@@ -295,8 +354,8 @@ class CockpitHUD
         DrawLine(bX + bW - 4, bY + bH - 4, bX + bW - 4 - cr, bY + bH - 4, GOLD)
         DrawLine(bX + bW - 4, bY + bH - 4, bX + bW - 4, bY + bH - 4 - cr, GOLD)
 
-        # Priority Dispatch Header Bar
-        DrawRectangle(bX + 2, bY + 2, bW - 4, 38, RAYLibColor(20, 30, 52, 240))
+        # Priority Dispatch Header Bar with Gradient
+        DrawRectangleGradientV(bX + 2, bY + 2, bW - 4, 38, RAYLibColor(28, 46, 82, 250), RAYLibColor(14, 22, 42, 240))
         DrawLine(bX + 2, bY + 40, bX + bW - 2, bY + 40, DARKBLUE)
 
         pulseTime = GetTime() * 4.0
@@ -324,14 +383,19 @@ class CockpitHUD
         DrawText("> As Earth's elite Vanguard Commander, you are summoned to the Starfleet Hangar.", bX + 45, storyY + 130, 16, GOLD)
         DrawText("> Choose your starfighter, calibrate tactical weapons, and engage the 10 waves!", bX + 45, storyY + 154, 16, SKYBLUE)
 
-        # Action Prompt Button
+        # Action Prompt Button with Gradient & Pulse
         promptY = bY + bH - 65
         pulseBtn = floor(180 + sin(pulseTime) * 70)
-        btnRec = Rectangle(bX + 60, promptY, bW - 120, 44)
-        DrawRectangleRounded(btnRec, 0.25, 4, RAYLibColor(18, 45, 30, pulseBtn))
+        btnW = bW - 120
+        btnH = 44
+        btnX = bX + 60
+        btnRec = Rectangle(btnX, promptY, btnW, btnH)
+        DrawRectangleGradientV(btnX, promptY, btnW, btnH, RAYLibColor(24, 75, 45, pulseBtn), RAYLibColor(10, 32, 20, pulseBtn))
         DrawRectangleRoundedLines(btnRec, 0.25, 4, 2.0, GREEN)
 
-        drawTextStyled("PRESS [SPACE] OR [ENTER] TO ENTER STARFLEET HANGAR", bX + 80, promptY + 14, 16, GREEN)
+        promptTxt = "PRESS [SPACE] OR [ENTER] TO ENTER STARFLEET HANGAR"
+        pTxtW = MeasureText(promptTxt, 15)
+        drawTextStyled(promptTxt, btnX + btnW / 2 - pTxtW / 2, promptY + 14, 15, GREEN)
     end
 
     # ---------------------------------------------------------------
@@ -351,77 +415,80 @@ class CockpitHUD
         boost    = bayData[18]
         turnSpd  = bayData[19]
 
-        # Top Header Bar
+        # Top Header Bar with Cyber Gradient
         recHeader = Rectangle(0, 0, screenWidth, 46)
-        DrawRectangleRounded(recHeader, 0.0, 0, RAYLibColor(10, 16, 28, 220))
+        DrawRectangleGradientV(0, 0, screenWidth, 46, RAYLibColor(16, 28, 52, 240), RAYLibColor(8, 14, 28, 220))
         DrawRectangleLines(0, 0, screenWidth, 46, DARKBLUE)
 
         drawTextStyled("STARFLEET SHIP SELECTION HANGAR", 20, 13, 16, GOLD)
         DrawText("BAY " + selectedBay + " / " + len(bays) + " // [A]/[D] SELECT // [H] TOGGLE PANELS", screenWidth - 460, 15, 13, SKYBLUE)
 
         if showHUD
-            # Left Panel: Vessel Technical Dossier (Compact Cyber Card)
-            pW = 250
+            # Left Panel: Vessel Technical Dossier (Expanded Width & Gradients)
+            pW = 270
             pH = 450
             pX = 14
             pY = 62
             recLeft = Rectangle(pX, pY, pW, pH)
-            DrawRectangleRounded(recLeft, 0.08, 6, RAYLibColor(8, 14, 24, 175))
+            DrawRectangleGradientV(pX, pY, pW, pH, RAYLibColor(14, 24, 44, 225), RAYLibColor(5, 9, 18, 240))
             DrawRectangleRoundedLines(recLeft, 0.08, 6, 1.8, bColor)
 
-            # Left Panel Header
-            DrawRectangle(pX + 2, pY + 2, pW - 4, 30, RAYLibColor(16, 24, 40, 200))
+            # Left Panel Header with Gradient
+            DrawRectangleGradientV(pX + 2, pY + 2, pW - 4, 30, RAYLibColor(28, 44, 76, 240), RAYLibColor(12, 20, 36, 220))
             drawTextStyled("VESSEL DOSSIER", pX + 12, pY + 8, 13, GOLD)
 
-            # Ship Name & Faction
-            DrawText(bName, pX + 12, pY + 40, 11, bColor)
-            DrawText(bClass, pX + 12, pY + 58, 10, LIGHTGRAY)
-            DrawText("FACTION: " + bFaction, pX + 12, pY + 76, 10, SKYBLUE)
-            DrawLine(pX + 12, pY + 96, pX + pW - 12, pY + 96, RAYLibColor(0, 120, 200, 80))
+            # Ship Name & Faction with Strict Text Containment
+            maxW = pW - 24
+            curY = pY + 38
+            curY = drawTextWithin(bName, pX + 12, curY, maxW, 11, bColor)
+            curY = drawTextWithin(bClass, pX + 12, curY, maxW, 10, LIGHTGRAY)
+            curY = drawTextWithin("FACTION: " + bFaction, pX + 12, curY, maxW, 10, SKYBLUE)
+            DrawLine(pX + 12, curY + 4, pX + pW - 12, curY + 4, RAYLibColor(0, 120, 200, 80))
 
-            # Combat Specs Bars
-            sY = pY + 106
+            # Combat Specs Bars with Horizontal Gradients
+            sY = curY + 12
             DrawText("HULL ARMOR: " + maxHP + " HP", pX + 12, sY, 11, RAYWHITE)
             hpRatio = maxHP / 600.0
             if hpRatio > 1.0 hpRatio = 1.0 ok
-            DrawRectangle(pX + 12, sY + 18, 225, 8, DARKGRAY)
-            DrawRectangle(pX + 12, sY + 18, floor(225 * hpRatio), 8, GREEN)
-            DrawRectangleLines(pX + 12, sY + 18, 225, 8, LIGHTGRAY)
+            barWidth = maxW
+            DrawRectangle(pX + 12, sY + 16, barWidth, 7, DARKGRAY)
+            DrawRectangleGradientH(pX + 12, sY + 16, floor(barWidth * hpRatio), 7, GREEN, LIME)
+            DrawRectangleLines(pX + 12, sY + 16, barWidth, 7, LIGHTGRAY)
 
-            sY += 38
+            sY += 30
             DrawText("WEAPONS:", pX + 12, sY, 11, RAYWHITE)
-            DrawText(bWeapons, pX + 12, sY + 16, 10, GOLD)
+            sY = drawTextWithin(bWeapons, pX + 12, sY + 14, maxW, 10, GOLD)
 
-            sY += 56
+            sY += 6
             DrawText("SPEED: " + boost + " KM/S", pX + 12, sY, 11, RAYWHITE)
             spdRatio = boost / 130.0
             if spdRatio > 1.0 spdRatio = 1.0 ok
-            DrawRectangle(pX + 12, sY + 18, 225, 8, DARKGRAY)
-            DrawRectangle(pX + 12, sY + 18, floor(225 * spdRatio), 8, SKYBLUE)
-            DrawRectangleLines(pX + 12, sY + 18, 225, 8, LIGHTGRAY)
+            DrawRectangle(pX + 12, sY + 16, barWidth, 7, DARKGRAY)
+            DrawRectangleGradientH(pX + 12, sY + 16, floor(barWidth * spdRatio), 7, SKYBLUE, BLUE)
+            DrawRectangleLines(pX + 12, sY + 16, barWidth, 7, LIGHTGRAY)
 
-            sY += 38
+            sY += 30
             DrawText("AGILITY: " + turnSpd + " DEG/S", pX + 12, sY, 11, RAYWHITE)
             turnRatio = turnSpd / 140.0
             if turnRatio > 1.0 turnRatio = 1.0 ok
-            DrawRectangle(pX + 12, sY + 18, 225, 8, DARKGRAY)
-            DrawRectangle(pX + 12, sY + 18, floor(225 * turnRatio), 8, YELLOW)
-            DrawRectangleLines(pX + 12, sY + 18, 225, 8, LIGHTGRAY)
+            DrawRectangle(pX + 12, sY + 16, barWidth, 7, DARKGRAY)
+            DrawRectangleGradientH(pX + 12, sY + 16, floor(barWidth * turnRatio), 7, YELLOW, GOLD)
+            DrawRectangleLines(pX + 12, sY + 16, barWidth, 7, LIGHTGRAY)
 
-            sY += 46
+            sY += 32
             spinTxt = "TURNTABLE: ACTIVE (360°)"
             if not turntableSpin spinTxt = "TURNTABLE: PAUSED" ok
             DrawText(spinTxt, pX + 12, sY, 11, ORANGE)
-            DrawText("[SPACE] Pause / Resume Spin", pX + 12, sY + 18, 10, LIGHTGRAY)
+            DrawText("[SPACE] Pause / Resume Spin", pX + 12, sY + 16, 10, LIGHTGRAY)
 
-            # Right Panel: Flight Academy & Controls Manual (Compact Cyber Card)
+            # Right Panel: Flight Academy & Controls Manual (Gradients & Clean Fit)
             rX = screenWidth - pW - 14
             recRight = Rectangle(rX, pY, pW, pH)
-            DrawRectangleRounded(recRight, 0.08, 6, RAYLibColor(8, 14, 24, 175))
+            DrawRectangleGradientV(rX, pY, pW, pH, RAYLibColor(14, 24, 44, 225), RAYLibColor(5, 9, 18, 240))
             DrawRectangleRoundedLines(recRight, 0.08, 6, 1.8, SKYBLUE)
 
-            # Right Panel Header
-            DrawRectangle(rX + 2, pY + 2, pW - 4, 30, RAYLibColor(16, 24, 40, 200))
+            # Right Panel Header with Gradient
+            DrawRectangleGradientV(rX + 2, pY + 2, pW - 4, 30, RAYLibColor(28, 44, 76, 240), RAYLibColor(12, 20, 36, 220))
             drawTextStyled("FLIGHT ACADEMY", rX + 12, pY + 8, 13, GOLD)
 
             # Guidance: How to select ship
@@ -448,25 +515,31 @@ class CockpitHUD
             DrawText("- B               : Toggle Bloom Glow", rX + 12, mY + 130, 10, RAYWHITE)
         ok
 
-        # Bottom Centered Launch Bar (Sits cleanly between panels, never overlapping!)
+        # Bottom Centered Launch Bar with Gradient
         pulseTime = GetTime() * 5.0
         launchAlpha = floor(180 + sin(pulseTime) * 75)
-        barW = 460
+        barW = 480
         barH = 46
         barX = screenWidth / 2 - barW / 2
         barY = screenHeight - 56
 
         recLaunch = Rectangle(barX, barY, barW, barH)
-        DrawRectangleRounded(recLaunch, 0.25, 4, RAYLibColor(10, 35, 20, launchAlpha))
+        DrawRectangleGradientV(barX, barY, barW, barH, RAYLibColor(22, 65, 38, launchAlpha), RAYLibColor(8, 28, 16, launchAlpha))
         DrawRectangleRoundedLines(recLaunch, 0.25, 4, 2.0, GREEN)
 
-        drawTextStyled("PRESS [ENTER] TO LAUNCH STARFIGHTER!", barX + 32, barY + 13, 15, GREEN)
+        launchTxt = "PRESS [ENTER] TO LAUNCH STARFIGHTER!"
+        lTxtW = MeasureText(launchTxt, 15)
+        drawTextStyled(launchTxt, barX + barW / 2 - lTxtW / 2, barY + 14, 15, GREEN)
     end
 
     func drawMenu screenWidth, screenHeight
-        recMenu = Rectangle(screenWidth/2 - 280, screenHeight/2 - 200, 560, 400)
-        DrawRectangleRounded(recMenu, 0.15, 6, RAYLibColor(15, 20, 35, 240))
-        DrawRectangleRoundedLines(recMenu, 0.15, 6, 2.0, SKYBLUE)
+        mW = 560
+        mH = 400
+        mX = screenWidth/2 - mW/2
+        mY = screenHeight/2 - mH/2
+        recMenu = Rectangle(mX, mY, mW, mH)
+        DrawRectangleGradientV(mX, mY, mW, mH, RAYLibColor(18, 28, 52, 245), RAYLibColor(6, 10, 20, 250))
+        DrawRectangleRoundedLines(recMenu, 0.12, 6, 2.0, SKYBLUE)
 
         drawTextStyled("SPACE SHOOTER 3D", screenWidth/2 - 180, screenHeight/2 - 165, 26, GOLD)
         DrawText("Operation: Chrono-Gate - 360° All-Range Combat", screenWidth/2 - 240, screenHeight/2 - 115, 20, SKYBLUE)
@@ -484,9 +557,13 @@ class CockpitHUD
     end
 
     func drawGameOver screenWidth, screenHeight, score, distanceTraveled
-        recOver = Rectangle(screenWidth/2 - 240, screenHeight/2 - 130, 480, 260)
-        DrawRectangleRounded(recOver, 0.18, 6, RAYLibColor(30, 10, 10, 240))
-        DrawRectangleRoundedLines(recOver, 0.18, 6, 2.0, RED)
+        oW = 480
+        oH = 260
+        oX = screenWidth/2 - oW/2
+        oY = screenHeight/2 - oH/2
+        recOver = Rectangle(oX, oY, oW, oH)
+        DrawRectangleGradientV(oX, oY, oW, oH, RAYLibColor(45, 12, 16, 248), RAYLibColor(14, 5, 8, 252))
+        DrawRectangleRoundedLines(recOver, 0.15, 6, 2.2, RED)
 
         drawTextStyled("MISSION FAILED", screenWidth/2 - 140, screenHeight/2 - 95, 26, RED)
         drawTextStyled("FINAL SCORE: " + score, screenWidth/2 - 110, screenHeight/2 - 40, 18, GOLD)
@@ -496,9 +573,13 @@ class CockpitHUD
     end
 
     func drawVictory screenWidth, screenHeight, score, distanceTraveled, maxWaves
-        recVic = Rectangle(screenWidth/2 - 260, screenHeight/2 - 140, 520, 280)
-        DrawRectangleRounded(recVic, 0.18, 6, RAYLibColor(10, 30, 20, 240))
-        DrawRectangleRoundedLines(recVic, 0.18, 6, 2.0, GOLD)
+        vW = 520
+        vH = 280
+        vX = screenWidth/2 - vW/2
+        vY = screenHeight/2 - vH/2
+        recVic = Rectangle(vX, vY, vW, vH)
+        DrawRectangleGradientV(vX, vY, vW, vH, RAYLibColor(16, 45, 30, 248), RAYLibColor(6, 16, 12, 252))
+        DrawRectangleRoundedLines(recVic, 0.15, 6, 2.2, GOLD)
 
         drawTextStyled("VICTORY! GALAXY SAVED!", screenWidth/2 - 180, screenHeight/2 - 100, 22, GOLD)
         drawTextStyled("FINAL SCORE: " + score, screenWidth/2 - 110, screenHeight/2 - 50, 18, SKYBLUE)

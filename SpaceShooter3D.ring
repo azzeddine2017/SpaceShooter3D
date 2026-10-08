@@ -66,6 +66,7 @@ class SpaceShooterGame
     renderTarget
     bloomShader
     hasBloom
+    spaceBgTexture
 
     # OOP Subsystems
     player
@@ -114,6 +115,14 @@ class SpaceShooterGame
         bgMusic                = LoadMusicStream("Assets/Dimensions.ogg")
         PlayMusicStream(bgMusic)
         SetMusicVolume(bgMusic, 0.7)
+
+        # Space Background Nebula Texture
+        spaceBgTexture = 0
+        spaceBgPath    = "Assets/space_bg.jpg"
+        if fexists(spaceBgPath)
+            spaceBgTexture = LoadTexture(spaceBgPath)
+            GenTextureMipmaps(spaceBgTexture)
+        ok
 
         # ---------------------------------------------------------------
         # 1. Load All 6 Starfleet Models & High-Tech Hull Textures
@@ -593,14 +602,13 @@ class SpaceShooterGame
             DrawCube(sp, sz * 0.4, sz * 0.4, sz * 0.4, WHITE)
         next
 
-        # 2. Cyber Hangar Floor Grid
-        DrawGrid(50, 4.0)
-
-        # 3. Main Runway Markings
-        runwayLength = 190.0
-        DrawLine3D(Vector3(-runwayLength / 2.0, 0.05, 0.0), Vector3(runwayLength / 2.0, 0.05, 0.0), RAYLibColor(0, 180, 255, 120))
-        DrawLine3D(Vector3(-runwayLength / 2.0, 0.05, 9.0), Vector3(runwayLength / 2.0, 0.05, 9.0), RAYLibColor(0, 100, 180, 60))
-        DrawLine3D(Vector3(-runwayLength / 2.0, 0.05, -9.0), Vector3(runwayLength / 2.0, 0.05, -9.0), RAYLibColor(0, 100, 180, 60))
+        # 2. Sleek Cyber Runway Markings (Clean & High-Tech, No harsh debug grid lines)
+        runwayLength = 220.0
+        DrawLine3D(Vector3(-runwayLength / 2.0, 0.05, 0.0), Vector3(runwayLength / 2.0, 0.05, 0.0), RAYLibColor(0, 200, 255, 140))
+        DrawLine3D(Vector3(-runwayLength / 2.0, 0.05, 10.0), Vector3(runwayLength / 2.0, 0.05, 10.0), RAYLibColor(0, 120, 200, 60))
+        DrawLine3D(Vector3(-runwayLength / 2.0, 0.05, -10.0), Vector3(runwayLength / 2.0, 0.05, -10.0), RAYLibColor(0, 120, 200, 60))
+        DrawLine3D(Vector3(-runwayLength / 2.0, 0.05, 20.0), Vector3(runwayLength / 2.0, 0.05, 20.0), RAYLibColor(0, 80, 150, 30))
+        DrawLine3D(Vector3(-runwayLength / 2.0, 0.05, -20.0), Vector3(runwayLength / 2.0, 0.05, -20.0), RAYLibColor(0, 80, 150, 30))
 
         # 4. Render 6 Exhibition Bays
         curTime = GetTime()
@@ -746,18 +754,17 @@ class SpaceShooterGame
     # Render Master Pipeline
     # ---------------------------------------------------------------
     func render
-        # Scene A: Cinematic Story Prologue Banner
+        # Scene A: Cinematic Story Prologue Banner (No harsh grid lines, pure deep space nebula)
         if gameState = STATE_STORY
             BeginDrawing()
-            ClearBackground(RAYLibColor(8, 12, 22, 255))
-            drawHangar3D()
+            hud.drawSpaceBackdrop(SCREEN_WIDTH, SCREEN_HEIGHT, spaceBgTexture)
             hud.drawStoryBanner(SCREEN_WIDTH, SCREEN_HEIGHT)
             EndDrawing()
 
         # Scene B: 3D Starfleet Hangar & Ship Selection
         elseif gameState = STATE_HANGAR
             BeginDrawing()
-            ClearBackground(RAYLibColor(8, 12, 22, 255))
+            hud.drawSpaceBackdrop(SCREEN_WIDTH, SCREEN_HEIGHT, spaceBgTexture)
             drawHangar3D()
             hud.drawHangarUI(SCREEN_WIDTH, SCREEN_HEIGHT, selectedBay, hangarBays, turntableSpin, showHangarHUD)
             EndDrawing()
@@ -886,6 +893,10 @@ class SpaceShooterGame
         if hasBloom
             UnloadShader(bloomShader)
             UnloadRenderTexture(renderTarget)
+        ok
+
+        if spaceBgTexture != NULL and spaceBgTexture.id > 0
+            UnloadTexture(spaceBgTexture)
         ok
 
         hud.cleanup()

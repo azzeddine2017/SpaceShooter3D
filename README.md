@@ -82,6 +82,7 @@ spaceshooter/
 │
 └── Assets/
     ├── bloom.fs          # Post-processing GLSL Bloom glow shader
+    ├── space_bg.jpg      # High-resolution cosmic nebula space backdrop
     ├── Dimensions.ogg    # Epic orchestral space soundtrack
     ├── laser1.ogg        # Player plasma cannon audio
     ├── raval.wav         # Upgraded cannon rapid laser salvo audio
