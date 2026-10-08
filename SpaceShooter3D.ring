@@ -762,10 +762,11 @@ class SpaceShooterGame
             hud.drawStoryBanner(SCREEN_WIDTH, SCREEN_HEIGHT)
             EndDrawing()
 
-        # Scene B: 3D Starfleet Hangar & Ship Selection (Bright, fully illuminated 3D hall)
+        # Scene B: 3D Starfleet Hangar & Ship Selection (Bright, fully illuminated 3D hall with space backdrop)
         elseif gameState = STATE_HANGAR
             BeginDrawing()
             ClearBackground(RAYLibColor(10, 16, 28, 255))
+            hud.drawSpaceBackdrop(SCREEN_WIDTH, SCREEN_HEIGHT, spaceBgTexture)
             drawHangar3D()
             hud.drawHangarUI(SCREEN_WIDTH, SCREEN_HEIGHT, selectedBay, hangarBays, turntableSpin, showHangarHUD)
             EndDrawing()

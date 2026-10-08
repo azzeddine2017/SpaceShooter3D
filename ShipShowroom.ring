@@ -37,6 +37,13 @@ func main
         fontLoaded = true
     ok
 
+    # Space Background Nebula Texture
+    spaceBgTexture = 0
+    spaceBgPath    = "Assets/space_bg.png"
+    if fexists(spaceBgPath)
+        spaceBgTexture = LoadTexture(spaceBgPath)
+    ok
+
     # ---------------------------------------------------------------
     # 2. Load 3D Models & Materials (6 Pure Sci-Fi Starfleet Ships)
     # ---------------------------------------------------------------
@@ -290,7 +297,17 @@ func main
         # Render 3D Scene
         # -----------------------------------------------------------
         BeginDrawing()
-        ClearBackground(RAYLibColor(8, 12, 22, 255))
+        ClearBackground(RAYLibColor(10, 16, 28, 255))
+
+        # Space Background Backdrop
+        if isObject(spaceBgTexture)
+            if spaceBgTexture.id > 0
+                srcRec  = Rectangle(0.0, 0.0, spaceBgTexture.width, spaceBgTexture.height)
+                destRec = Rectangle(0.0, 0.0, SCREEN_WIDTH, SCREEN_HEIGHT)
+                origin  = Vector2(0.0, 0.0)
+                DrawTexturePro(spaceBgTexture, srcRec, destRec, origin, 0.0, WHITE)
+            ok
+        ok
 
         BeginMode3D(camera)
 
@@ -578,6 +595,12 @@ func main
 
     if fontLoaded
         UnloadFont(fontSciFi)
+    ok
+
+    if isObject(spaceBgTexture)
+        if spaceBgTexture.id > 0
+            UnloadTexture(spaceBgTexture)
+        ok
     ok
 
     CloseWindow()
