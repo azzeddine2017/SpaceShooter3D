@@ -1,6 +1,6 @@
 # Blender 4.0.2
 # www.blender.org
-mtllib Fighter 38.mtl
+mtllib fighter_38.mtl
 o Fighter3
 v -0.608300 0.201184 0.554652
 v -0.602763 0.569234 0.546473

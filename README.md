@@ -74,10 +74,10 @@ spaceshooter/
 ├── HUD.ring              # class CockpitHUD (Chase camera, telemetry & mini-radar)
 │
 ├── data/
-│   ├── Quarren Coyote Ship.obj   # Player Vanguard Starfighter
+│   ├── quarren_coyote_ship.obj   # Player Vanguard Starfighter
 │   ├── plane_diffuse.png         # Starfighter diffuse texture map
-│   ├── Fighter+38_obj/           # Fighter 38 High-Agility Recon Scout Drone
-│   ├── Fighter+232_obj/          # Fighter 232 Heavy Assault Strike Raider
+│   ├── fighter_38/               # Fighter 38 High-Agility Recon Scout Drone
+│   ├── fighter_232/              # Fighter 232 Heavy Assault Strike Raider
 │   └── enemy_fighter.obj         # Intergalactic Razor Interceptor & Titan Boss
 │
 └── Assets/

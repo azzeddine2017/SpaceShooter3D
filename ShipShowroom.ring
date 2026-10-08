@@ -42,14 +42,21 @@ func main
     # ---------------------------------------------------------------
 
     # Vessel 1: Quarren Coyote Interceptor (Vanguard Starfighter)
-    modelCoyote = LoadModel("data/Quarren Coyote Ship.obj")
+    coyotePath = "data/quarren_coyote_ship.obj"
+    if not fexists(coyotePath) and fexists("data/Quarren Coyote Ship.obj")
+        coyotePath = "data/Quarren Coyote Ship.obj"
+    ok
+    modelCoyote = LoadModel(coyotePath)
     modelCoyote.transform = MatrixIdentity()
     texCoyote   = LoadTexture("data/plane_diffuse.png")
     GenTextureMipmaps(texCoyote)
     SetModelMaterialTexture(modelCoyote, 0, MATERIAL_MAP_DIFFUSE, texCoyote)
 
     # Vessel 2: Fighter 38 (New Recon Scout Drone)
-    fighter38Path = "data/Fighter+38_obj/Fighter 38.obj"
+    fighter38Path = "data/fighter_38/fighter_38.obj"
+    if not fexists(fighter38Path) and fexists("data/Fighter+38_obj/Fighter 38.obj")
+        fighter38Path = "data/Fighter+38_obj/Fighter 38.obj"
+    ok
     modelFighter38 = LoadModel(fighter38Path)
     modelFighter38.transform = MatrixIdentity()
     imgFighter38   = GenImageCellular(512, 512, 16)
@@ -60,7 +67,10 @@ func main
     SetModelMaterialTexture(modelFighter38, 0, MATERIAL_MAP_DIFFUSE, texFighter38)
 
     # Vessel 3: Fighter 232 (New Strike Raider Heavy Fighter)
-    fighter232Path = "data/Fighter+232_obj/Fighter 232.obj"
+    fighter232Path = "data/fighter_232/fighter_232.obj"
+    if not fexists(fighter232Path) and fexists("data/Fighter+232_obj/Fighter 232.obj")
+        fighter232Path = "data/Fighter+232_obj/Fighter 232.obj"
+    ok
     modelFighter232 = LoadModel(fighter232Path)
     modelFighter232.transform = MatrixIdentity()
     imgFighter232   = GenImageCellular(512, 512, 24)

@@ -54,7 +54,7 @@ func getStarfleetBays
             0.4,   # yOffset
             0.0,   # zOffset
             0.0,   # rotOffset
-            "data/Quarren Coyote Ship.obj",
+            "data/quarren_coyote_ship.obj",
             0.015, # player combat scale
             120,   # maxHealth
             52.0,  # cruiseSpeed
@@ -79,7 +79,7 @@ func getStarfleetBays
             0.1,
             0.0,
             90.0, # rotOffset (Nose is along -X in Blender)
-            "data/Fighter+38_obj/Fighter 38.obj",
+            "data/fighter_38/fighter_38.obj",
             3.60, # player combat scale (enlarged to true fighter proportion)
             90,    # maxHealth
             65.0,  # cruiseSpeed
@@ -104,7 +104,7 @@ func getStarfleetBays
             -0.5,
             0.0,
             90.0, # rotOffset (Nose is along -X in Blender)
-            "data/Fighter+232_obj/Fighter 232.obj",
+            "data/fighter_232/fighter_232.obj",
             0.26, # player combat scale
             160,   # maxHealth
             42.0,  # cruiseSpeed

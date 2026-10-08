@@ -1,6 +1,6 @@
 # Blender 4.0.2
 # www.blender.org
-mtllib Fighter 232.mtl
+mtllib fighter_232.mtl
 o Fighter232
 v -19.514505 2.961118 1.059990
 v -20.216625 3.925330 1.102216
