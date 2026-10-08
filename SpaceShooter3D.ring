@@ -118,10 +118,9 @@ class SpaceShooterGame
 
         # Space Background Nebula Texture
         spaceBgTexture = 0
-        spaceBgPath    = "Assets/space_bg.jpg"
+        spaceBgPath    = "Assets/space_bg.png"
         if fexists(spaceBgPath)
             spaceBgTexture = LoadTexture(spaceBgPath)
-            GenTextureMipmaps(spaceBgTexture)
         ok
 
         # ---------------------------------------------------------------
@@ -602,13 +601,14 @@ class SpaceShooterGame
             DrawCube(sp, sz * 0.4, sz * 0.4, sz * 0.4, WHITE)
         next
 
-        # 2. Sleek Cyber Runway Markings (Clean & High-Tech, No harsh debug grid lines)
+        # 2. Cyber Hangar Floor Grid & Glowing Illumination Deck
+        DrawGrid(50, 4.0)
+
+        # 3. Main Runway Guidance Markings
         runwayLength = 220.0
-        DrawLine3D(Vector3(-runwayLength / 2.0, 0.05, 0.0), Vector3(runwayLength / 2.0, 0.05, 0.0), RAYLibColor(0, 200, 255, 140))
-        DrawLine3D(Vector3(-runwayLength / 2.0, 0.05, 10.0), Vector3(runwayLength / 2.0, 0.05, 10.0), RAYLibColor(0, 120, 200, 60))
-        DrawLine3D(Vector3(-runwayLength / 2.0, 0.05, -10.0), Vector3(runwayLength / 2.0, 0.05, -10.0), RAYLibColor(0, 120, 200, 60))
-        DrawLine3D(Vector3(-runwayLength / 2.0, 0.05, 20.0), Vector3(runwayLength / 2.0, 0.05, 20.0), RAYLibColor(0, 80, 150, 30))
-        DrawLine3D(Vector3(-runwayLength / 2.0, 0.05, -20.0), Vector3(runwayLength / 2.0, 0.05, -20.0), RAYLibColor(0, 80, 150, 30))
+        DrawLine3D(Vector3(-runwayLength / 2.0, 0.08, 0.0), Vector3(runwayLength / 2.0, 0.08, 0.0), RAYLibColor(0, 220, 255, 180))
+        DrawLine3D(Vector3(-runwayLength / 2.0, 0.08, 9.0), Vector3(runwayLength / 2.0, 0.08, 9.0), RAYLibColor(0, 140, 240, 100))
+        DrawLine3D(Vector3(-runwayLength / 2.0, 0.08, -9.0), Vector3(runwayLength / 2.0, 0.08, -9.0), RAYLibColor(0, 140, 240, 100))
 
         # 4. Render 6 Exhibition Bays
         curTime = GetTime()
@@ -754,17 +754,18 @@ class SpaceShooterGame
     # Render Master Pipeline
     # ---------------------------------------------------------------
     func render
-        # Scene A: Cinematic Story Prologue Banner (No harsh grid lines, pure deep space nebula)
+        # Scene A: Cinematic Story Prologue Banner (No grid lines, pure cosmic space backdrop)
         if gameState = STATE_STORY
             BeginDrawing()
+            ClearBackground(BLACK)
             hud.drawSpaceBackdrop(SCREEN_WIDTH, SCREEN_HEIGHT, spaceBgTexture)
             hud.drawStoryBanner(SCREEN_WIDTH, SCREEN_HEIGHT)
             EndDrawing()
 
-        # Scene B: 3D Starfleet Hangar & Ship Selection
+        # Scene B: 3D Starfleet Hangar & Ship Selection (Bright, fully illuminated 3D hall)
         elseif gameState = STATE_HANGAR
             BeginDrawing()
-            hud.drawSpaceBackdrop(SCREEN_WIDTH, SCREEN_HEIGHT, spaceBgTexture)
+            ClearBackground(RAYLibColor(10, 16, 28, 255))
             drawHangar3D()
             hud.drawHangarUI(SCREEN_WIDTH, SCREEN_HEIGHT, selectedBay, hangarBays, turntableSpin, showHangarHUD)
             EndDrawing()

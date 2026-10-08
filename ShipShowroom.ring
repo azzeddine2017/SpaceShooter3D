@@ -301,13 +301,14 @@ func main
             DrawCube(sp, sz * 0.4, sz * 0.4, sz * 0.4, WHITE)
         next
 
-        # 2. Sleek Cyber Runway Markings (Clean & High-Tech, No harsh debug grid lines)
+        # 2. Cyber Hangar Floor Grid & Glowing Illumination Deck
+        DrawGrid(50, 4.0)
+
+        # 3. Main Exhibition Runway Markings
         runwayLength = 220.0
-        DrawLine3D(Vector3(-runwayLength / 2.0, 0.05, 0.0), Vector3(runwayLength / 2.0, 0.05, 0.0), RAYLibColor(0, 200, 255, 140))
-        DrawLine3D(Vector3(-runwayLength / 2.0, 0.05, 10.0), Vector3(runwayLength / 2.0, 0.05, 10.0), RAYLibColor(0, 120, 200, 60))
-        DrawLine3D(Vector3(-runwayLength / 2.0, 0.05, -10.0), Vector3(runwayLength / 2.0, 0.05, -10.0), RAYLibColor(0, 120, 200, 60))
-        DrawLine3D(Vector3(-runwayLength / 2.0, 0.05, 20.0), Vector3(runwayLength / 2.0, 0.05, 20.0), RAYLibColor(0, 80, 150, 30))
-        DrawLine3D(Vector3(-runwayLength / 2.0, 0.05, -20.0), Vector3(runwayLength / 2.0, 0.05, -20.0), RAYLibColor(0, 80, 150, 30))
+        DrawLine3D(Vector3(-runwayLength / 2.0, 0.08, 0.0), Vector3(runwayLength / 2.0, 0.08, 0.0), RAYLibColor(0, 220, 255, 180))
+        DrawLine3D(Vector3(-runwayLength / 2.0, 0.08, 9.0), Vector3(runwayLength / 2.0, 0.08, 9.0), RAYLibColor(0, 140, 240, 100))
+        DrawLine3D(Vector3(-runwayLength / 2.0, 0.08, -9.0), Vector3(runwayLength / 2.0, 0.08, -9.0), RAYLibColor(0, 140, 240, 100))
 
         # 4. Render All Exhibition Bays
         for b = 1 to totalBays

@@ -32,19 +32,9 @@ func cleanObsoleteDataFiles
             remove(f)
         ok
     next
-    ensureGameAssets()
+    
 end
 
-# -------------------------------------------------------------------
-# Ensure Essential Visual Assets (Space Backdrop & Textures)
-# -------------------------------------------------------------------
-func ensureGameAssets
-    targetBg = "Assets/space_bg.jpg"
-    srcBg    = "C:/Users/Azzeddine/.gemini/antigravity-ide/brain/599f719c-2be6-4281-95b3-ff1a834d80a4/space_nebula_bg_1791464055737.jpg"
-    if not fexists(targetBg) and fexists(srcBg)
-        write(targetBg, read(srcBg))
-    ok
-end
 
 # -------------------------------------------------------------------
 # Helper: Get All Starfleet Ship Definitions

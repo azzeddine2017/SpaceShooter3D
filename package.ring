@@ -44,7 +44,7 @@ aPackageInfo = [
         "Assets/laser2.ogg",
         "Assets/pirulen.ttf",
         "Assets/raval.wav",
-        "Assets/space_bg.jpg",
+        "Assets/space_bg.png",
         "data/plane_diffuse.png",
         "data/quarren_coyote_ship.obj",
         "data/enemy_fighter.obj",

@@ -39,14 +39,17 @@ class CockpitHUD
     end
 
     func drawSpaceBackdrop screenWidth, screenHeight, bgTex
-        if bgTex != NULL and bgTex.id > 0
-            srcRec  = Rectangle(0, 0, bgTex.width, bgTex.height)
-            destRec = Rectangle(0, 0, screenWidth, screenHeight)
-            DrawTexturePro(bgTex, srcRec, destRec, Vector2(0, 0), 0.0, WHITE)
-            DrawRectangleGradientV(0, 0, screenWidth, screenHeight, RAYLibColor(4, 8, 16, 60), RAYLibColor(2, 4, 10, 150))
-        else
-            DrawRectangleGradientV(0, 0, screenWidth, screenHeight, RAYLibColor(8, 16, 32, 255), RAYLibColor(3, 5, 12, 255))
+        if isObject(bgTex)
+            if bgTex.id > 0
+                srcRec  = Rectangle(0.0, 0.0, bgTex.width, bgTex.height)
+                destRec = Rectangle(0.0, 0.0, screenWidth, screenHeight)
+                origin  = Vector2(0.0, 0.0)
+                DrawTexturePro(bgTex, srcRec, destRec, origin, 0.0, WHITE)
+                return
+            ok
         ok
+        # Fallback rich interstellar cosmic gradient (Never pitch black!)
+        DrawRectangleGradientV(0, 0, screenWidth, screenHeight, RAYLibColor(18, 32, 65, 255), RAYLibColor(5, 10, 24, 255))
     end
 
     func drawTextWithin text, x, y, maxW, fontSize, color
