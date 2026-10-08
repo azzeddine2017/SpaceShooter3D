@@ -52,7 +52,11 @@ aPackageInfo = [
         "data/Fighter+38_obj/Fighter 38.obj",
         "data/Fighter+38_obj/Fighter 38.mtl",
         "data/Fighter+232_obj/Fighter 232.obj",
-        "data/Fighter+232_obj/Fighter 232.mtl"
+        "data/Fighter+232_obj/Fighter 232.mtl",
+        "data/Capture.PNG",
+        "data/Capture2.PNG",
+        "data/Capture3.PNG",
+        "data/Capture4.PNG"
     ],
     :ringfolderfiles = [
     ],
